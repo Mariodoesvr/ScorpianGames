@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScorpianGames</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Grotesk:wght@400;700&display=swap');
+        
+        :root {
+            --logo-blue: #6ea1ca; /* Extracted from the image background */
+            --ink-black: #1a1a1a;
+            --discord-blurple: #5865F2;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--logo-blue);
+            background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+            color: var(--ink-black);
+            min-h-screen;
+        }
+
+        .handwritten {
+            font-family: 'Permanent Marker', cursive;
+        }
+
+        .sketch-card {
+            background: white;
+            border: 3px solid var(--ink-black);
+            box-shadow: 8px 8px 0px var(--ink-black);
+            border-radius: 2px;
+            position: relative;
+            clip-path: polygon(1% 1%, 100% 0%, 99% 99%, 0% 100%);
+        }
+
+        .nav-btn, .discord-btn {
+            font-family: 'Permanent Marker', cursive;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Hover effect for tabs with rotation */
+        .nav-btn:hover, .discord-btn:hover {
+            transform: scale(1.15) rotate(var(--rot, 3deg));
+            filter: brightness(1.3);
+            cursor: pointer;
+        }
+
+        /* Random-ish rotation directions for a hand-drawn feel */
+        #btn-home { --rot: -3deg; }
+        #btn-projects { --rot: 3deg; }
+        #btn-about { --rot: -2deg; }
+        #btn-privacy { --rot: 4deg; }
+        #btn-discord { --rot: -3deg; }
+
+        .nav-btn.active {
+            border-bottom: 4px solid var(--ink-black);
+            transform: translateY(-2px) rotate(-2deg);
+            color: white;
+            text-shadow: 2px 2px 0px var(--ink-black);
+        }
+
+        /* Ensure active state still allows a slight hover pop */
+        .nav-btn.active:hover {
+            transform: translateY(-2px) rotate(-4deg) scale(1.1);
+        }
+
+        .discord-btn {
+            background: var(--discord-blurple);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            box-shadow: 4px 4px 0px var(--ink-black);
+        }
+
+        .page-content {
+            display: none;
+            animation: inkFade 0.4s ease-out;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        @keyframes inkFade {
+            from { opacity: 0; transform: scale(0.98) rotate(1deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
+        }
+
+        .logo-s {
+            display: inline-block;
+            background: var(--ink-black);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+            font-weight: 900;
+        }
+
+        /* Privacy Policy Specific Styling */
+        .policy-text h2 { @apply text-2xl font-black mt-10 mb-4 border-b-2 border-black block uppercase italic; }
+        .policy-text h3 { @apply text-lg font-bold mt-6 mb-2 text-slate-800; }
+        .policy-text p { @apply mb-4 leading-relaxed text-slate-800; }
+        .policy-text ul { @apply list-disc ml-6 mb-4 space-y-2 text-slate-800; }
+        .policy-text strong { @apply font-bold text-black; }
+        .rating-table { @apply w-full mb-8 border-2 border-black text-left; }
+        .rating-table th { @apply bg-black text-white p-2 uppercase text-xs; }
+        .rating-table td { @apply p-2 border border-slate-200 text-sm; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Header / Navigation -->
+    <header class="max-w-5xl mx-auto mb-12">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="flex items-center gap-3">
+                <div class="text-4xl handwritten transform -rotate-6">
+                    <span class="logo-s">S</span>corpian<span class="text-white drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">Games</span>
+                </div>
+            </div>
+            
+            <nav class="flex flex-wrap justify-center items-center gap-4">
+                <button onclick="showPage('home')" id="btn-home" class="nav-btn active text-xl px-4 py-1">Home</button>
+                <button onclick="showPage('projects')" id="btn-projects" class="nav-btn text-xl px-4 py-1">Projects</button>
+                <button onclick="showPage('about')" id="btn-about" class="nav-btn text-xl px-4 py-1">About</button>
+                <button onclick="showPage('privacy')" id="btn-privacy" class="nav-btn text-xl px-4 py-1">Privacy</button>
+                <a href="https://discord.gg/vj845zZfTJ" target="_blank" id="btn-discord" class="discord-btn text-xl">
+                    <svg width="20" height="20" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.06,72.06,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.82,56.6.48,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.24-16.14h0C130.46,50.45,121.31,26.69,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5.07-12.73,11.41-12.73S54,46,53.86,53,48.74,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5.07-12.73,11.44-12.73S96.23,46,96.12,53,91,65.69,84.69,65.69Z"/></svg>
+                    Discord
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-4xl mx-auto">
+        
+        <!-- Home Page -->
+        <section id="home" class="page-content active">
+            <div class="sketch-card p-8 md:p-16 text-center">
+                <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-4 italic">Sketching the Future.</h2>
+                <p class="text-xl font-bold mb-8 opacity-80">VR experiences & mobile games with a raw edge.</p>
+                
+                <div class="border-4 border-black p-6 inline-block mb-8 transform rotate-1">
+                    <p class="handwritten text-4xl">The Ballpit</p>
+                    <p class="text-xs font-black uppercase tracking-widest mt-2">Interactive XR Horror</p>
+                </div>
+                
+                <div class="mt-4">
+                    <button onclick="showPage('projects')" class="bg-black text-white px-8 py-4 text-xl font-bold uppercase hover:bg-white hover:text-black border-4 border-black transition-all">
+                        Enter The Vault
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Page -->
+        <section id="projects" class="page-content">
+            <h2 class="text-4xl font-black mb-8 uppercase italic underline decoration-white">Current Builds</h2>
+            <div class="grid gap-8">
+                <a href="https://www.meta.com/experiences/theballpit/25632429496365842/" target="_blank" 
+                   class="sketch-card p-8 flex items-center justify-between group hover:translate-x-2 transition-transform">
+                    <div>
+                        <span class="text-3xl font-black block uppercase group-hover:text-blue-600">The Ballpit VR</span>
+                        <span class="handwritten text-lg opacity-60">Quest Native Experience</span>
+                    </div>
+                    <div class="text-5xl font-black">→</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about" class="page-content">
+            <div class="sketch-card p-10">
+                <h2 class="text-4xl font-black mb-6 uppercase italic underline">Behind the Ink</h2>
+                <div class="space-y-6 text-xl font-medium">
+                    <p>ScorpianGames is a solo dev studio focused on making stuff that stands out.</p>
+                    <p class="bg-black text-white p-4 transform -rotate-1">
+                        "Independent games with creativity at their core."
+                    </p>
+                    
+                    <!-- New Support Section -->
+                    <div class="pt-10 border-t-2 border-slate-200">
+                        <h3 class="text-2xl font-black uppercase mb-4 handwritten">Need Support?</h3>
+                        <p class="text-lg mb-6">Got questions, found a bug, or just need some help? Fill out our support form and we'll get back to you!</p>
+                        <a href="https://forms.gle/Npm3Bm8LaY4boicp8" target="_blank" class="inline-block bg-white text-black border-4 border-black px-6 py-3 font-bold uppercase hover:bg-black hover:text-white transition-all transform hover:rotate-2 shadow-[6px_6px_0_rgba(0,0,0,1)]">
+                            Open Support Form
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Policy Page -->
+        <section id="privacy" class="page-content">
+            <div class="sketch-card p-8 md:p-12 policy-text">
+                <h1 class="text-4xl font-black mb-2 uppercase">PRIVACY POLICY</h1>
+                <p class="handwritten text-lg mb-8 underline decoration-black">Last updated July 31, 2025</p>
+
+                <p>This Privacy Notice for <strong>ScorpianGames</strong> ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:</p>
+                
+                <ul>
+                    <li>Download and use our mobile application (<strong>The Ballpit Vr</strong>), or any other application of ours that links to this Privacy Notice</li>
+                    <li>Engage with us in other related ways, including any sales, marketing, or events</li>
+                </ul>
+
+                <p><strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <strong>Kacraig1110@gmail.com</strong>.</p>
+
+                <h2>SUMMARY OF KEY POINTS</h2>
+                <p>This summary provides key points from our Privacy Notice. <strong>What personal information do we process?</strong> When you visit, use, or navigate our Services, we may process personal information depending on how you interact with us. <strong>Do we process any sensitive personal information?</strong> We do not process sensitive personal information. <strong>Do we collect any information from third parties?</strong> We do not collect any information from third parties.</p>
+
+                <h2>1. WHAT INFORMATION DO WE COLLECT?</h2>
+                <p>We collect personal information that you voluntarily provide to us when you express an interest in obtaining information about us or our products and Services.</p>
+                <p><strong>Application Data:</strong> If you use our application(s), we also may collect Mobile Device Data. We automatically collect device information (such as your mobile device ID, model, and manufacturer), operating system, version information and system configuration information.</p>
+
+                <h2>2. HOW DO WE PROCESS YOUR INFORMATION?</h2>
+                <p>We process your personal information for a variety of reasons, depending on how you interact with our Services, including:</p>
+                <ul>
+                    <li>To enable user-to-user communications.</li>
+                    <li>To save or protect an individual's vital interest.</li>
+                </ul>
+
+                <h2>3. WHAT LEGAL BASES DO WE RELY ON?</h2>
+                <p>The GDPR and UK GDPR require us to explain the valid legal bases we rely on. We may rely on Consent, Performance of a Contract, Legal Obligations, and Vital Interests.</p>
+
+                <h2>4. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?</h2>
+                <p><strong>Business Transfers:</strong> We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.</p>
+
+                <h2>5. HOW LONG DO WE KEEP YOUR INFORMATION?</h2>
+                <p>We will only keep your personal information for as long as it is necessary for the purposes set out in this Privacy Notice, unless a longer retention period is required or permitted by law.</p>
+
+                <h2>6. HOW DO WE KEEP YOUR INFORMATION SAFE?</h2>
+                <p>We have implemented appropriate and reasonable technical and organizational security measures designed to protect the security of any personal information we process. However, no electronic transmission over the internet can be guaranteed to be 100% secure.</p>
+
+                <h2>7. WHAT ARE YOUR PRIVACY RIGHTS?</h2>
+                <p>In some regions (like the EEA, UK, Switzerland, and Canada), you have certain rights under applicable data protection laws. You can make a request by contacting us at <strong>Kacraig1110@gmail.com</strong>.</p>
+
+                <h2>8. CONTROLS FOR DO-NOT-TRACK FEATURES</h2>
+                <p>Because there currently is not an industry or legal standard for recognizing or honoring DNT signals, we do not respond to them at this time.</p>
+
+                <h2>9. UNITED STATES RESIDENTS</h2>
+                <table class="rating-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Collected</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A. Identifiers</td><td>NO</td></tr>
+                        <tr><td>B. Personal information (CA statute)</td><td>NO</td></tr>
+                        <tr><td>D. Commercial information</td><td>YES</td></tr>
+                        <tr><td>F. Internet or network activity</td><td>YES</td></tr>
+                        <tr><td>L. Sensitive personal Information</td><td>NO</td></tr>
+                    </tbody>
+                </table>
+
+                <h2>10. DO WE MAKE UPDATES TO THIS NOTICE?</h2>
+                <p>We may update this Privacy Notice from time to time. The updated version will be indicated by an updated "Revised" date at the top of this Privacy Notice.</p>
+
+                <h2>11. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?</h2>
+                <p>If you have questions or comments about this notice, you may contact <strong>ScorpianGames</strong> at <strong>Kacraig1110@gmail.com</strong>.</p>
+
+                <h2>12. REVIEW, UPDATE, OR DELETE DATA</h2>
+                <p>To request to review, update, or delete your personal information, please submit a data subject access request to our contact email.</p>
+                
+                <p class="mt-8 font-black handwritten text-2xl">ScorpianGames</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            const activeBtn = document.getElementById('btn-' + pageId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
