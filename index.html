@@ -9,7 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Grotesk:wght@400;700&display=swap');
         
         :root {
-            --logo-blue: #6ea1ca; /* Extracted from the image background */
+            --logo-blue: #6ea1ca;
             --ink-black: #1a1a1a;
             --discord-blurple: #5865F2;
         }
@@ -44,14 +44,12 @@
             gap: 8px;
         }
 
-        /* Hover effect for tabs with rotation */
         .nav-btn:hover, .discord-btn:hover {
             transform: scale(1.15) rotate(var(--rot, 3deg));
             filter: brightness(1.3);
             cursor: pointer;
         }
 
-        /* Random-ish rotation directions for a hand-drawn feel */
         #btn-home { --rot: -3deg; }
         #btn-projects { --rot: 3deg; }
         #btn-about { --rot: -2deg; }
@@ -65,7 +63,6 @@
             text-shadow: 2px 2px 0px var(--ink-black);
         }
 
-        /* Ensure active state still allows a slight hover pop */
         .nav-btn.active:hover {
             transform: translateY(-2px) rotate(-4deg) scale(1.1);
         }
@@ -101,7 +98,6 @@
             font-weight: 900;
         }
 
-        /* Privacy Policy Specific Styling */
         .policy-text h2 { @apply text-2xl font-black mt-10 mb-4 border-b-2 border-black block uppercase italic; }
         .policy-text h3 { @apply text-lg font-bold mt-6 mb-2 text-slate-800; }
         .policy-text p { @apply mb-4 leading-relaxed text-slate-800; }
@@ -197,6 +193,7 @@
 
         <!-- Privacy Policy Page -->
         <section id="privacy" class="page-content">
+            <meta http-equiv="refresh" content="0; url=policy.html">
             <div class="sketch-card p-8 md:p-12 policy-text">
                 <h1 class="text-4xl font-black mb-2 uppercase">PRIVACY POLICY</h1>
                 <p class="handwritten text-lg mb-8 underline decoration-black">Last updated July 31, 2025</p>
